@@ -2,7 +2,7 @@
 A javascript library that returns comparisons for length, height, area, volume, and weight.
 
 ## Idea
-There are separate JSONs for Length, height, area, and weight. Each is an array that contains objects that contain "name_of_thing", "measurement", "unit", "type_of_thing", and "source".
+There are separate JSONs for Length, height, area, hardness, and weight. Each is an array that contains objects that contain "name_of_thing", "measurement", "unit", "type_of_thing", and "source".
 
 "type_of_thing" can be:
 - person
