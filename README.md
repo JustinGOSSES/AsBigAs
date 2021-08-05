@@ -2,7 +2,7 @@
 A javascript library that returns comparisons for length, height, area, volume, and weight.
 
 ## Idea
-There are separate JSONs for Length, height, area, and weight. Each is an array that contains objects that contain "name of thing", "measurement", "unit", "type_of_thing", and "source".
+There are separate JSONs for Length, height, area, and weight. Each is an array that contains objects that contain "name_of_thing", "measurement", "unit", "type_of_thing", and "source".
 
 "type_of_thing" can be:
 - person
@@ -38,5 +38,27 @@ There are separate JSONs for Length, height, area, and weight. Each is an array 
 - to-do
 
 ## API Use
+The idea behind this API is it would be used to find funny or relatable ways to describe the physical properties of something. 
+
+It could be used in an Observable notebook to explore analogies. 
+
+For example: 
+- "The interior of the van has the same volumne as 1523 average pineapples."
+
+It could also be used to add an interactive element to any web based text content or data visualizations. The end user could iterate through random selections of analogies to represent a physical measurement. 
+
 
 ## API Calls
+
+get_measurement:
+- "measurement_type":enum string
+- "measurement_unit":enum string
+- "measurement_value:float
+- "output_unit":string (optional)
+- "output_type_of_thing_category":enum string (optional)
+
+output:
+all inputs +
+- "type_of_thing":string
+- "analogy_thing_name":string
+- "analogy_number_of_things:float
