@@ -75,3 +75,4 @@ all inputs +
 - getting started tutorial
 - example webpages
 - example uses in WordPress
+- example in Observable
