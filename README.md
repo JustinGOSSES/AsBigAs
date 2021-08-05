@@ -48,7 +48,7 @@ For example:
 It could also be used to add an interactive element to any web based text content or data visualizations. The end user could iterate through random selections of analogies to represent a physical measurement. 
 
 
-## API Calls
+## API calls
 
 get_measurement:
 - "measurement_type":enum string
@@ -56,9 +56,16 @@ get_measurement:
 - "measurement_value:float
 - "output_unit":string (optional)
 - "output_type_of_thing_category":enum string (optional)
+- "random_or_ordered_results":enum string "random" or "ordered"
 
 output:
 all inputs +
 - "type_of_thing":string
 - "analogy_thing_name":string
 - "analogy_number_of_things:float
+
+## API tasks
+- Download JSON appropriate for measurement_type
+- filter by "output_type_of_thing_category" if present in API call
+- select random value or first value in list based on "random_or_ordered_results"
+- return outputs in JSON.
