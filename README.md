@@ -69,3 +69,9 @@ all inputs +
 - filter by "output_type_of_thing_category" if present in API call
 - select random value or first value in list based on "random_or_ordered_results"
 - return outputs in JSON.
+
+## Documentation needs to make useful
+- code documentation
+- getting started tutorial
+- example webpages
+- example uses in WordPress
