@@ -76,3 +76,6 @@ all inputs +
 - example webpages
 - example uses in WordPress
 - example in Observable
+
+## Examples of silly units of measurement in wild
+- Asteroid in size of giraff https://twitter.com/mailonline/status/1503400626008596487?s=21
