@@ -1,6 +1,8 @@
 # AsBigAs
 A javascript library that returns comparisons for length, height, area, volume, and weight.
 
+Could also be known as ridiculous units of measurement comparisons as a service.
+
 Or maybe use python & fastAPI?
 
 ## Idea
