@@ -17,6 +17,8 @@ in the [idea.md](./idea.md) file.
 Currently just a first draft written in COVID isolation
 trying to figure out how much brain power I have back.
 
+Page is live at https://justingosses.github.io/AsBigAs/
+
 ## Data
 
 ### Asteroid data
