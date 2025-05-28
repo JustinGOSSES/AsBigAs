@@ -18,3 +18,44 @@ h1 {
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.07);
 }
+.asteroid-mode-toggle {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 1.5rem 0 1rem 0;
+}
+.asteroid-mode-toggle button {
+    padding: 0.5rem 1.5rem;
+    font-size: 1rem;
+    border: 1px solid #3366cc;
+    background: #f0f6ff;
+    color: #3366cc;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+.asteroid-mode-toggle button.active {
+    background: #3366cc;
+    color: #fff;
+}
+#asteroid-id-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+}
+#asteroid-id-input {
+    padding: 0.4rem 0.7rem;
+    font-size: 1rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+#asteroid-id-form button[type="submit"] {
+    padding: 0.4rem 1rem;
+    font-size: 1rem;
+    border-radius: 4px;
+    border: 1px solid #3366cc;
+    background: #3366cc;
+    color: #fff;
+    cursor: pointer;
+}

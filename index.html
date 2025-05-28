@@ -8,6 +8,15 @@
 </head>
 <body>
     <h1>Welcome to "An Asteroid As Big As"</h1>
+    <div class="asteroid-mode-toggle">
+        <button id="show-today-btn" class="active">Nearest Asteroid Today</button>
+        <button id="show-specific-btn">Specific Asteroid by ID</button>
+    </div>
+    <form id="asteroid-id-form" style="display:none; margin: 1rem 0;">
+        <label for="asteroid-id-input"><strong>Asteroid ID:</strong></label>
+        <input type="text" id="asteroid-id-input" placeholder="e.g. 3542519" required />
+        <button type="submit">Show Asteroid</button>
+    </form>
     <div id="asteroid-output" class="asteroid-output"></div>
     <div id="closest-thing-result" class="closest-thing"></div>
     <div class="thing-compare">
@@ -18,5 +27,9 @@
         <div id="comparison-result"></div>
     </div>
     <script src="js/main.js"></script>
+    <footer style="text-align:center; margin: 2rem 0 1rem 0; color: #555; font-size: 1.1rem;">
+        If you would like to learn about this project or add your own silly thing of specific height, width, and length to the list of comparisons, check out this 
+        <a href="https://github.com/JustinGOSSES/AsBigAs" target="_blank" rel="noopener">GitHub repository</a>.
+    </footer>
 </body>
 </html>

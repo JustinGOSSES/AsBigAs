@@ -29,6 +29,8 @@ function getLatestNearestAsteroid() {
             }
             const name = nearest.name;
             const diameter = nearest.estimated_diameter.kilometers;
+            const miss_distance_km = nearest.close_approach_data[0].miss_distance.kilometers;
+            
             return {
                 "name":name,
                 "date": today,
@@ -36,6 +38,7 @@ function getLatestNearestAsteroid() {
                 "data": nearest,
                 "min_diameter_km": diameter.estimated_diameter_min,
                 "max_diameter_km": diameter.estimated_diameter_max,
+                "miss_distance_km": miss_distance_km
             };
         });
 }
@@ -80,7 +83,7 @@ function compareAsteroidToThing(asteroid, thing) {
     const thingHeight = parseFloat(thing.height);
     if (!thingHeight || thingHeight <= 0) return 'Invalid thing height.';
     const numThings = asteroidSize / thingHeight;
-    return `The asteroid's max diameter is as tall as <strong>${numThings.toFixed(1)}</strong> ${thing.name} stacked on one another.`;
+    return `The asteroid's max diameter is as tall as <strong>${numThings.toFixed(1)}</strong> ${thing.name} stacked on top of one another.`;
 }
 
 // Find the thing closest in size to the asteroid (by average diameter vs. height)
@@ -114,7 +117,7 @@ function showClosestThing(asteroid, things, closestThingResultDiv) {
         div.className = 'closest-thing';
         console.log('Closest thing found:', closest);
         if (closest) {
-            div.innerHTML = `The closest thing to the size of the asteroid in your database is <strong>${closest.thing.name}</strong>, which is <strong>${closest.percent.toFixed(1)}%</strong> taller. (comparing height vs. average diameter).`;
+            div.innerHTML = `The closest thing to the size of the asteroid in your database is <strong>${closest.thing.name}</strong>, which is <strong>${closest.percent.toFixed(1)}%</strong> the height of the asteroid. (comparing height vs. max diameter).`;
         } else {
             div.innerHTML = 'No valid comparison found.';
         }
@@ -131,13 +134,77 @@ function afterThingsLoaded(asteroidData, thingsList, closestThingResultDiv) {
         }
     }
 
+function getAsteroidById(asteroidId) {
+    const apiKey = 'DEMO_KEY';
+    const url = `https://api.nasa.gov/neo/rest/v1/neo/${asteroidId}?api_key=${apiKey}`;
+    return fetch(url)
+        .then(response => {
+            if (!response.ok) throw new Error('Asteroid not found or network error');
+            return response.json();
+        })
+        .then(data => {
+            // The structure is different from the feed endpoint
+            const diameter = data.estimated_diameter.kilometers;
+            return {
+                name: data.name,
+                date: data.close_approach_data && data.close_approach_data[0] ? data.close_approach_data[0].close_approach_date : 'N/A',
+                why: 'This is the specific asteroid you requested.',
+                data: data,
+                min_diameter_km: diameter.estimated_diameter_min,
+                max_diameter_km: diameter.estimated_diameter_max,
+            };
+        });
+}
+
 window.addEventListener('DOMContentLoaded', () => {
     const output = document.getElementById('asteroid-output');
     const select = document.getElementById('thing-select');
     const comparisonDiv = document.getElementById('comparison-result');
     const closestThingResultDiv = document.getElementById('closest-thing-result');
+    const showTodayBtn = document.getElementById('show-today-btn');
+    const showSpecificBtn = document.getElementById('show-specific-btn');
+    const asteroidIdForm = document.getElementById('asteroid-id-form');
+    const asteroidIdInput = document.getElementById('asteroid-id-input');
     let asteroidData = null;
     let thingsList = [];
+    let mode = 'today'; // 'today' or 'specific'
+
+    function setMode(newMode) {
+        mode = newMode;
+        if (mode === 'today') {
+            showTodayBtn.classList.add('active');
+            showSpecificBtn.classList.remove('active');
+            asteroidIdForm.style.display = 'none';
+            // Reload nearest asteroid
+            getLatestNearestAsteroid()
+                .then(result => {
+                    asteroidData = result;
+                    console.log('asteroidData:', asteroidData);
+                    loadThingsAndPopulateDropdown(asteroidData, closestThingResultDiv);
+                    output.innerHTML = `
+                        <div class="asteroid-info">
+                            <h2>Nearest Asteroid Today</h2>
+                            <p><strong>Name:</strong> ${result.name}</p>
+                            <p><strong>Date:</strong> ${result.date}</p>
+                            <p><strong>Why:</strong> ${result.why}</p>
+                            <p><strong>Min Diameter (km):</strong> ${result.min_diameter_km.toFixed(3)} km (${(result.min_diameter_km * 1000).toFixed(0)} m)</p>
+                            <p><strong>Max Diameter (km):</strong> ${result.max_diameter_km.toFixed(3)} km (${(result.max_diameter_km * 1000).toFixed(0)} m)</p>
+                            <p><strong>Miss Distance (km):</strong> ${result.miss_distance_km.toFixed(3)} km</p>
+                        </div>
+                    `;
+                })
+                .catch(err => {
+                    output.innerHTML = `<p style="color:red;">Error: ${err.message}</p>`;
+                });
+        } else {
+            showTodayBtn.classList.remove('active');
+            showSpecificBtn.classList.add('active');
+            asteroidIdForm.style.display = 'flex';
+            output.innerHTML = '';
+            closestThingResultDiv.innerHTML = '';
+            comparisonDiv.innerHTML = '';
+        }
+    }
 
     getLatestNearestAsteroid()
         .then(result => {
@@ -149,8 +216,10 @@ window.addEventListener('DOMContentLoaded', () => {
                     <p><strong>Name:</strong> ${result.name}</p>
                     <p><strong>Date:</strong> ${result.date}</p>
                     <p><strong>Why:</strong> ${result.why}</p>
-                    <p><strong>Min Diameter (km):</strong> ${result.min_diameter_km.toFixed(3)}</p>
-                    <p><strong>Max Diameter (km):</strong> ${result.max_diameter_km.toFixed(3)}</p>
+                    <p><strong>Min Diameter (km):</strong> ${result.min_diameter_km.toFixed(3)} km (${(result.min_diameter_km * 1000).toFixed(0)} m)</p>
+                    <p><strong>Max Diameter (km):</strong> ${result.max_diameter_km.toFixed(3)} km (${(result.max_diameter_km * 1000).toFixed(0)} m)</p>
+                    <p><strong>Miss Distance (km):</strong> ${Math.round(Number(result.miss_distance_km))} km</p>
+                    <p><strong>Link to more information</strong>: <a href="https://ssd.jpl.nasa.gov/tools/sbdb_lookup.html#/?sstr=${result.data.id}" target="_blank">Jet Propulsion Laboratory's Small-Body Database</a></p>
                 </div>
             `;
             
@@ -176,5 +245,33 @@ window.addEventListener('DOMContentLoaded', () => {
         }
         const thing = select.things[idx];
         comparisonDiv.innerHTML = compareAsteroidToThing(asteroidData, thing);
+    });
+
+    showTodayBtn.addEventListener('click', () => setMode('today'));
+    showSpecificBtn.addEventListener('click', () => setMode('specific'));
+
+    asteroidIdForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const id = asteroidIdInput.value.trim();
+        if (!id) return;
+        getAsteroidById(id)
+            .then(result => {
+                asteroidData = result;
+                loadThingsAndPopulateDropdown(asteroidData, closestThingResultDiv);
+                output.innerHTML = `
+                    <div class="asteroid-info">
+                        <h2>Asteroid: ${result.name}</h2>
+                        <p><strong>Date:</strong> ${result.date}</p>
+                        <p><strong>Why:</strong> ${result.why}</p>
+                        <p><strong>Min Diameter (km):</strong> ${result.min_diameter_km.toFixed(3)} km (${(result.min_diameter_km * 1000).toFixed(0)} m)</p>
+                        <p><strong>Max Diameter (km):</strong> ${result.max_diameter_km.toFixed(3)} km (${(result.max_diameter_km * 1000).toFixed(0)} m)</p>
+                    </div>
+                `;
+            })
+            .catch(err => {
+                output.innerHTML = `<p style=\"color:red;\">Error: ${err.message}</p>`;
+                closestThingResultDiv.innerHTML = '';
+                comparisonDiv.innerHTML = '';
+            });
     });
 });
