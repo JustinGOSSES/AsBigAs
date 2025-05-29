@@ -61,12 +61,14 @@ function loadThingsAndPopulateDropdown(asteroidData, closestThingResultDiv){
         .then(res => res.text())
         .then(csv => {
             const things = parseCSV(csv);
+            console.log('Parsed things from CSV:', things); // Debug: show all parsed things
             // Sort things by height (ascending)
             things.sort((a, b) => parseFloat(a.height) - parseFloat(b.height));
             thingsList = things;
             const select = document.getElementById('thing-select');
             select.innerHTML = '<option value="">Select a thing...</option>';
             things.forEach((thing, idx) => {
+                console.log(`Adding thing to dropdown: ${thing.name}, height: ${thing.height}, width: ${thing.width}, length: ${thing.length}`); // Debug: show each thing being added
                 const opt = document.createElement('option');
                 opt.value = idx;
                 opt.textContent = thing.name;
@@ -77,13 +79,38 @@ function loadThingsAndPopulateDropdown(asteroidData, closestThingResultDiv){
         });
 }
 
-// Compare asteroid to selected thing
-function compareAsteroidToThing(asteroid, thing) {
-    const asteroidSize = asteroid.max_diameter_km * 1000; // convert km to meters
-    const thingHeight = parseFloat(thing.height);
-    if (!thingHeight || thingHeight <= 0) return 'Invalid thing height.';
-    const numThings = asteroidSize / thingHeight;
-    return `The asteroid's max diameter is as tall as <strong>${numThings.toFixed(1)}</strong> ${thing.name} stacked on top of one another.`;
+// Compare asteroid to selected thing by chosen dimension
+function compareAsteroidToThing(asteroid, thing, dimension = 'height') {
+    const asteroidSize = asteroid.max_diameter_km * 1000; // meters
+    let thingValue = parseFloat(thing[dimension]);
+    let dimensionLabel = dimension.charAt(0).toUpperCase() + dimension.slice(1);
+
+    if (dimension === 'max') {
+        thingValue = Math.max(parseFloat(thing.height), parseFloat(thing.width), parseFloat(thing.length));
+        dimensionLabel = 'Max Dimension';
+    } else if (dimension === 'volume') {
+        // Ellipsoid volume: 4/3 * pi * a * b * c
+        const pi = Math.PI;
+        // For thing: a,b,c = height, width, length
+        const a = parseFloat(thing.height) / 2;
+        const b = parseFloat(thing.width) / 2;
+        const c = parseFloat(thing.length) / 2;
+        const thingVolume = (4/3) * pi * a * b * c;
+        // For asteroid: a = max_diameter/2, b = min_diameter/2, c = min_diameter/2
+        const asteroidA = (asteroid.max_diameter_km * 1000) / 2;
+        const asteroidB = (asteroid.min_diameter_km * 1000) / 2;
+        const asteroidC = (asteroid.min_diameter_km * 1000) / 2;
+        const asteroidVolume = (4/3) * pi * asteroidA * asteroidB * asteroidC;
+        console.log(`Asteroid volume: ${asteroidVolume}, Thing volume: ${thingVolume}, Asteroid a,b,c: ${asteroidA},${asteroidB},${asteroidC}, Thing a,b,c: ${a},${b},${c}`);
+        if (!thingVolume || thingVolume <= 0) return 'Invalid thing volume.';
+        const numThings = asteroidVolume / thingVolume;
+        return `The asteroid's volume is as large as <strong>${numThings.toFixed(2)}</strong> ${thing.name} by volume (if both the asteroid and the ${thing.name} are shaped like ellipsoids).`;
+    }
+
+    if (!thingValue || thingValue <= 0) return 'Invalid thing dimension.';
+    const numThings = asteroidSize / thingValue;
+    console.log(`Asteroid size: ${asteroidSize}, Thing value (${dimensionLabel}): ${thingValue}, Num things: ${numThings}`);
+    return `The asteroid's max diameter is as large as <strong>${numThings.toFixed(2)}</strong> ${thing.name} (${dimensionLabel.toLowerCase()}) stacked end-to-end.`;
 }
 
 // Find the thing closest in size to the asteroid (by average diameter vs. height)
@@ -165,6 +192,8 @@ window.addEventListener('DOMContentLoaded', () => {
     const showSpecificBtn = document.getElementById('show-specific-btn');
     const asteroidIdForm = document.getElementById('asteroid-id-form');
     const asteroidIdInput = document.getElementById('asteroid-id-input');
+    // Add dimension select dropdown
+    const dimensionSelect = document.getElementById('dimension-select');
     let asteroidData = null;
     let thingsList = [];
     let mode = 'today'; // 'today' or 'specific'
@@ -233,19 +262,24 @@ window.addEventListener('DOMContentLoaded', () => {
                 showClosestThing(asteroidData, thingsList, closestThingResultDiv);
             }
 
-    select.addEventListener('change', function() {
+    // Update comparison when either dropdown changes
+    function updateComparison() {
         if (!asteroidData) {
             comparisonDiv.innerHTML = '<em>Asteroid data not loaded yet.</em>';
             return;
         }
-        const idx = this.value;
+        const idx = select.value;
         if (!idx) {
             comparisonDiv.innerHTML = '';
             return;
         }
         const thing = select.things[idx];
-        comparisonDiv.innerHTML = compareAsteroidToThing(asteroidData, thing);
-    });
+        const dimension = dimensionSelect.value;
+        comparisonDiv.innerHTML = compareAsteroidToThing(asteroidData, thing, dimension);
+    }
+
+    select.addEventListener('change', updateComparison);
+    dimensionSelect.addEventListener('change', updateComparison);
 
     showTodayBtn.addEventListener('click', () => setMode('today'));
     showSpecificBtn.addEventListener('click', () => setMode('specific'));
