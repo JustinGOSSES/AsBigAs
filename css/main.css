@@ -5,6 +5,10 @@ body {
     background: #f9f9f9;
     color: #222;
 }
+
+footer {
+    margin: 2rem
+}
 h1 {
     color: #3366cc;
     text-align: center;

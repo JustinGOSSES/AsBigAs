@@ -85,8 +85,10 @@ function compareAsteroidToThing(asteroid, thing, dimension = 'height') {
     let thingValue = parseFloat(thing[dimension]);
     let dimensionLabel = dimension.charAt(0).toUpperCase() + dimension.slice(1);
 
+    let maxValueType = "none"
     if (dimension === 'max') {
         thingValue = Math.max(parseFloat(thing.height), parseFloat(thing.width), parseFloat(thing.length));
+        maxValueType = (thingValue === parseFloat(thing.height)) ? 'height' : (thingValue === parseFloat(thing.width)) ? 'width' : 'length';
         dimensionLabel = 'Max Dimension';
     } else if (dimension === 'volume') {
         // Ellipsoid volume: 4/3 * pi * a * b * c
@@ -110,7 +112,10 @@ function compareAsteroidToThing(asteroid, thing, dimension = 'height') {
     if (!thingValue || thingValue <= 0) return 'Invalid thing dimension.';
     const numThings = asteroidSize / thingValue;
     console.log(`Asteroid size: ${asteroidSize}, Thing value (${dimensionLabel}): ${thingValue}, Num things: ${numThings}`);
-    return `The asteroid's max diameter is as large as <strong>${numThings.toFixed(2)}</strong> ${thing.name} (${dimensionLabel.toLowerCase()}) stacked end-to-end.`;
+    //
+    let newDimensionLabel = (dimensionLabel === 'Max Dimension') ? "Max Dimension: "+maxValueType :  dimensionLabel;
+    //
+    return `The asteroid's max diameter is as large as <strong>${numThings.toFixed(2)}</strong> ${thing.name} stacked end-to-end by (${newDimensionLabel.toLowerCase()}).`;
 }
 
 // Find the thing closest in size to the asteroid (by average diameter vs. height)

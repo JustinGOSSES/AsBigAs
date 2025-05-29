@@ -1,6 +1,6 @@
 name,height,width,length,volume,unit,type
 School Buses,3.2,2.5,10.7,85.6,meter,vehicle
-Swimming Pools,50,25,3,3750,meter,structure
+Olympic Swimming Pools,3,25,50,3750,meter,structure
 Blue Whales,4,4,28,300,meter,animal
 Refrigerators,1.8,0.7,0.7,0.88,meter,appliance
 Soccer Balls,0.22,0.22,0.22,0.011,meter,sports
