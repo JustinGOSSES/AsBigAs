@@ -5,7 +5,7 @@ console.log('Page loaded.');
 
 
 function getLatestNearestAsteroid() {
-    const apiKey = 'DEMO_KEY';
+    const apiKey = 'FajSctVLEY7pOpae3fS5Fds50yJM49OyJEsRspZ9'; // No powers BUT READ, replace with your own.
     const today = new Date().toISOString().slice(0, 10); // 'YYYY-MM-DD'
     const url = `https://api.nasa.gov/neo/rest/v1/feed?start_date=${today}&end_date=${today}&api_key=${apiKey}`;
 
@@ -149,7 +149,7 @@ function showClosestThing(asteroid, things, closestThingResultDiv) {
         div.className = 'closest-thing';
         console.log('Closest thing found:', closest);
         if (closest) {
-            div.innerHTML = `The closest thing to the size of the asteroid in your database is <strong>${closest.thing.name}</strong>, which is <strong>${closest.percent.toFixed(1)}%</strong> the height of the asteroid. (comparing height vs. max diameter).`;
+            div.innerHTML = `The closest thing to the size of the asteroid in our database is <strong>${closest.thing.name}</strong>, which is as big as <strong>${closest.percent.toFixed(1)}%</strong> the asteroid. (comparing <strong>${closest.thing.name}</strong> height vs. asteroid max diameter).`;
         } else {
             div.innerHTML = 'No valid comparison found.';
         }
@@ -179,6 +179,7 @@ function getAsteroidById(asteroidId) {
             const diameter = data.estimated_diameter.kilometers;
             return {
                 name: data.name,
+                id: data.id,
                 date: data.close_approach_data && data.close_approach_data[0] ? data.close_approach_data[0].close_approach_date : 'N/A',
                 why: 'This is the specific asteroid you requested.',
                 data: data,
@@ -219,11 +220,12 @@ window.addEventListener('DOMContentLoaded', () => {
                         <div class="asteroid-info">
                             <h2>Nearest Asteroid Today</h2>
                             <p><strong>Name:</strong> ${result.name}</p>
+                            <p><strong>ID:</strong> ${result.id}</p>
                             <p><strong>Date:</strong> ${result.date}</p>
                             <p><strong>Why:</strong> ${result.why}</p>
-                            <p><strong>Min Diameter (km):</strong> ${result.min_diameter_km.toFixed(3)} km (${(result.min_diameter_km * 1000).toFixed(0)} m)</p>
-                            <p><strong>Max Diameter (km):</strong> ${result.max_diameter_km.toFixed(3)} km (${(result.max_diameter_km * 1000).toFixed(0)} m)</p>
-                            <p><strong>Miss Distance (km):</strong> ${result.miss_distance_km.toFixed(3)} km</p>
+                            <p><strong>Min Diameter (km):</strong> ${parseFloat(result.min_diameter_km).toFixed(3)} km (${(parseFloat(result.min_diameter_km) * 1000).toFixed(0)} m)</p>
+                            <p><strong>Max Diameter (km):</strong> ${parseFloat(result.max_diameter_km).toFixed(3)} km (${(parseFloat(result.max_diameter_km) * 1000).toFixed(0)} m)</p>
+                            <p><strong>Miss Distance (km):</strong> ${parseFloat(result.miss_distance_km).toFixed(3)} km</p>
                         </div>
                     `;
                 })
@@ -292,7 +294,10 @@ window.addEventListener('DOMContentLoaded', () => {
     asteroidIdForm.addEventListener('submit', function(e) {
         e.preventDefault();
         const id = asteroidIdInput.value.trim();
-        if (!id) return;
+        if (!id) {
+            output.innerHTML = '<p style="color:red;">Please enter a valid Asteroid ID.</p>';
+            return;
+        }
         getAsteroidById(id)
             .then(result => {
                 asteroidData = result;
@@ -308,7 +313,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 `;
             })
             .catch(err => {
-                output.innerHTML = `<p style=\"color:red;\">Error: ${err.message}</p>`;
+                output.innerHTML = `<p style=\"color:red;\">Asteroid not found. Please check the ID and try again. If the problem persists, the NASA API may be temporarily unavailable or you may have exceeded the rate limit. <br>Error details: ${err.message}</p>`;
                 closestThingResultDiv.innerHTML = '';
                 comparisonDiv.innerHTML = '';
             });

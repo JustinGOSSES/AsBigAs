@@ -1,25 +1,25 @@
-name,height,width,length,volume,unit,type
-School Buses,3.2,2.5,10.7,85.6,meter,vehicle
-Olympic Swimming Pools,3,25,50,3750,meter,structure
-Blue Whales,4,4,28,300,meter,animal
-Refrigerators,1.8,0.7,0.7,0.88,meter,appliance
-Soccer Balls,0.22,0.22,0.22,0.011,meter,sports
-Shipping Containers,2.59,2.44,6.06,38.3,meter,container
-Grains of Rice,0.007,0.002,0.002,0.000000028,meter,food
-African Elephants,3.3,4,7.5,99,meter,animal
-Basketballs,0.24,0.24,0.24,0.014,meter,sports
-Compact Cars,1.45,1.75,4,10.15,meter,vehicle
-Giraffes,5.5,1,2.5,13.75,meter,animal
-Average Humans,1.7,0.5,0.3,0.255,meter,animal
-Ping Pong Balls,0.04,0.04,0.04,0.000064,meter,sports
-Football Fields,0.914,48.8,109.7,4887,meter,structure
-Statues of Liberty,46,14,14,9000,meter,structure
-Boeing 747s,19.4,68.5,70.6,93800,meter,vehicle
-House Cats,0.25,0.15,0.46,0.017,meter,animal
-Gallons of Milk,0.254,0.15,0.15,0.00675,meter,food
-Motorcycles,1.15,0.8,2.1,1.932,meter,vehicle
-Oak Trees,20,5,5,500,meter,plant
-Soccer Goals,2.44,7.32,2,35.7,meter,sports
-Washing Machines,0.85,0.6,0.6,0.306,meter,appliance
-Mount Everest,8848,2000,4000,10000000000,meter,mountain
-Burj Khalifa,828,100,100,1500000,meter,structure
+name,height,width,length,unit,type
+School Buses,3.2,2.5,10.7,meter,vehicle
+Olympic Swimming Pools,3,25,50,meter,structure
+Blue Whales,4,4,28,meter,animal
+Refrigerators,1.8,0.7,0.7,meter,appliance
+Soccer Balls,0.22,0.22,0.22,meter,sports
+Shipping Containers,2.59,2.44,6.06,meter,container
+Grains of Rice,0.007,0.002,0.002,meter,food
+African Elephants,3.3,4,7.5,meter,animal
+Basketballs,0.24,0.24,0.24,meter,sports
+Compact Cars,1.45,1.75,4,meter,vehicle
+Giraffes,5.5,1,2.5,meter,animal
+Average Humans,1.7,0.5,0.3,meter,animal
+Ping Pong Balls,0.04,0.04,0.04,meter,sports
+Football Fields,0.914,48.8,109.7,meter,structure
+Statues of Liberty,46,14,14,meter,structure
+Boeing 747s,19.4,68.5,70.6,meter,vehicle
+House Cats,0.25,0.15,0.46,meter,animal
+Gallons of Milk,0.254,0.15,0.15,meter,food
+Motorcycles,1.15,0.8,2.1,meter,vehicle
+Oak Trees,20,5,5,,meter,plant
+Soccer Goals,2.44,7.32,2,,meter,sports
+Washing Machines,0.85,0.6,0.6,meter,appliance
+Mount Everest,8848,2000,4000,meter,mountain
+Burj Khalifa,828,100,100,meter,structure
