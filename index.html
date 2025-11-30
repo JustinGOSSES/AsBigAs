@@ -8,17 +8,19 @@
 </head>
 <body>
     <h1>Welcome to "An Asteroid As Big As"</h1>
-    <h4>A site inspired by at least <a href="https://www.jpost.com/science/space/article-854712">three</a> separate <a href="https://www.dailymail.co.uk/sciencetech/article-10610491/Asteroid-half-size-giraffe-strikes-Earth-coast-Iceland.html">news</a> articles with <a href="https://www.pbs.org/newshour/science/skyscraper-size-asteroid-to-pass-within-2-million-miles-of-earth-poses-no-threat#:~:text=poses%2Dno%2Dthreat-,Skyscraper%2Dsize%20asteroid%20to%20pass%20within%202%20million,of%20Earth%20poses%20no%20threat&text=CAPE%20CANAVERAL%2C%20Fla.,from%20Earth%20to%20the%20moon.&text=NASA's%20Center%20for%20Near%20Earth,(7.3%20million%20kilometers)%20away.&text=Your%20donation%20makes%20a%20difference%20in%20these%20uncertain%20times.">headlines</a> that compare asteroids to random things.</h4>
+    <h4>A silly little site that tells you how big asteroids are relative to random things</h4>
+    <h4>Inspired by at least <a href="https://www.jpost.com/science/space/article-854712">three</a> separate <a href="https://www.dailymail.co.uk/sciencetech/article-10610491/Asteroid-half-size-giraffe-strikes-Earth-coast-Iceland.html">news</a> articles with <a href="https://www.pbs.org/newshour/science/skyscraper-size-asteroid-to-pass-within-2-million-miles-of-earth-poses-no-threat#:~:text=poses%2Dno%2Dthreat-,Skyscraper%2Dsize%20asteroid%20to%20pass%20within%202%20million,of%20Earth%20poses%20no%20threat&text=CAPE%20CANAVERAL%2C%20Fla.,from%20Earth%20to%20the%20moon.&text=NASA's%20Center%20for%20Near%20Earth,(7.3%20million%20kilometers)%20away.&text=Your%20donation%20makes%20a%20difference%20in%20these%20uncertain%20times.">headlines</a> that compare asteroids to random things.</h4>
     <div class="asteroid-mode-toggle">
         <button id="show-today-btn" class="active">Nearest Asteroid Today</button>
-        <button id="show-specific-btn">Specific Asteroid by ID</button>
+        <button id="show-specific-btn">Specific Asteroid by ID
+            <span class="info-icon-wrapper">
+                <span class="info-icon" tabindex="0" aria-label="Information about finding Asteroid ID" aria-describedby="spkid-tooltip">ℹ️</span>
+                <span class="info-tooltip" id="spkid-tooltip" role="tooltip">You can find the SPKID for an asteroid from <a href="https://cneos.jpl.nasa.gov/ca/" target="_blank" rel="noopener">NASA's Close Approach Data (opens in new window)</a> page.</span>
+            </span>
+        </button>
     </div>
     <form id="asteroid-id-form" style="display:none; margin: 1rem 0;">
         <label for="asteroid-id-input"><strong>Asteroid ID:</strong></label>
-        <span class="info-icon-wrapper">
-            <span class="info-icon" tabindex="0" aria-label="Information about finding Asteroid ID" aria-describedby="spkid-tooltip">ℹ️</span>
-            <span class="info-tooltip" id="spkid-tooltip" role="tooltip">You can find the SPKID for an asteroid from <a href="https://cneos.jpl.nasa.gov/ca/" target="_blank" rel="noopener">NASA's Close Approach Data (opens in new window)</a> page.</span>
-        </span>
         <input type="text" id="asteroid-id-input" placeholder="e.g. 3542519" required />
         <button type="submit">Show Asteroid</button>
     </form>
@@ -40,12 +42,23 @@
         <div id="comparison-result"></div>
     </div>
     <script src="js/main.js"></script>
-    <footer style="text-align:center; margin: 2rem 2rem 1rem 2rem; color: #555; font-size: 1.1rem;">
-        <p>If you would like to learn about this project or add your own silly thing of specific height, width, and length to the list of comparisons, check out this 
-        <a href="https://github.com/JustinGOSSES/AsBigAs" target="_blank" rel="noopener">GitHub repository</a>.
-        </p>
-        <p>Volume is calculated using the formula: volume = 4/3 * pi * height * width * depth. For the asteroid we assume height is max asteroid diameter and minimum asteroid diameter is both width and depth. For the 'thing', we take the height, width, and depth and pretend the giraffe, gorrila, or whatever is also shapped like an ellipsoid. It is not perfect, but it is fair.</p>
+    <footer style="text-align:center; margin: 2rem auto 1rem auto; color: #555; font-size: 1.1rem; border: 1pt solid #55555582; max-width:1200px; padding: 1rem;">
+ 
+        <h2>More information</h2>
+        <h3>Contributing</h3>
+        <span>
+
+        </span>
+        <p>Learn more about this project on the <a href="https://github.com/JustinGOSSES/AsBigAs" target="_blank" rel="noopener">GitHub repository</a>.
+        Contributions are welcome! Want to add your own silly thing to compare asteroids to? We'd love to have it!
+        See our <a href="https://github.com/JustinGOSSES/AsBigAs/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener">Contributing Guide</a>.</p>
+        
+        <h3>What are asteroids compared to?</h3>
         <p><a href="https://github.com/JustinGOSSES/AsBigAs/blob/main/data/things.csv">See the full list of things and their sizes.</a></p>
+
+        <h4>Calculations</h4>
+        <p>Volume is calculated using the formula: volume = 4/3 * pi * height * width * depth. For the asteroid we assume height is max asteroid diameter and minimum asteroid diameter is both width and depth. For the 'thing', we take the height, width, and depth and pretend the giraffe, gorrila, or whatever is also shapped like an ellipsoid. It is not perfect, but it is fair.</p>
+        
     </footer>
 </body>
 </html>
