@@ -13,6 +13,10 @@ in the [idea.md](./idea.md) file.
 
 Page is live at https://justingosses.github.io/AsBigAs/
 
+![alt text](image.png)
+
+![alt text](image-1.png)
+
 ## Status
 
 Currently just a first draft written in COVID isolation
