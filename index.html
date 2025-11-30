@@ -15,6 +15,10 @@
     </div>
     <form id="asteroid-id-form" style="display:none; margin: 1rem 0;">
         <label for="asteroid-id-input"><strong>Asteroid ID:</strong></label>
+        <span class="info-icon-wrapper">
+            <span class="info-icon" tabindex="0" aria-label="Information about finding Asteroid ID" aria-describedby="spkid-tooltip">ℹ️</span>
+            <span class="info-tooltip" id="spkid-tooltip" role="tooltip">You can find the SPKID for an asteroid from <a href="https://cneos.jpl.nasa.gov/ca/" target="_blank" rel="noopener">NASA's Close Approach Data (opens in new window)</a> page.</span>
+        </span>
         <input type="text" id="asteroid-id-input" placeholder="e.g. 3542519" required />
         <button type="submit">Show Asteroid</button>
     </form>
